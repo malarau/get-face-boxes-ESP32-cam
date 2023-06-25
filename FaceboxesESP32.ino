@@ -66,6 +66,24 @@ void setup() {
   config.xclk_freq_hz = 20000000;
   config.pixel_format = PIXFORMAT_JPEG;
 
+  /*
+    sensor.h
+    FRAMESIZE_96X96,    // 96x96
+    FRAMESIZE_QQVGA,    // 160x120
+    FRAMESIZE_QCIF,     // 176x144
+    FRAMESIZE_HQVGA,    // 240x176
+    FRAMESIZE_240X240,  // 240x240
+    FRAMESIZE_QVGA,     // 320x240
+    FRAMESIZE_CIF,      // 400x296
+    FRAMESIZE_HVGA,     // 480x320
+    FRAMESIZE_VGA,      // 640x480
+    FRAMESIZE_SVGA,     // 800x600
+    FRAMESIZE_XGA,      // 1024x768
+    FRAMESIZE_HD,       // 1280x720
+    FRAMESIZE_SXGA,     // 1280x1024
+    FRAMESIZE_UXGA,     // 1600x1200
+  */
+
   //init with high specs to pre-allocate larger buffers
   if (psramFound()) {
     config.frame_size = FRAMESIZE_QVGA;
@@ -123,18 +141,19 @@ void loop() {
       y = (int)out_res.net_boxes->box[i].box_p[1];
       w = (int)out_res.net_boxes->box[i].box_p[2] - x + 1;
       h = (int)out_res.net_boxes->box[i].box_p[3] - y + 1;
+
+      // The values!
+      Serial.print("Box ");
+      Serial.print(i + 1);
+      Serial.print(": x = ");
+      Serial.print(x);
+      Serial.print(", y = ");
+      Serial.print(y);
+      Serial.print(", width = ");
+      Serial.print(w);
+      Serial.print(", height = ");
+      Serial.println(h);
     }
-    // The values!
-    Serial.print("Box ");
-    Serial.print(i + 1);
-    Serial.print(": x = ");
-    Serial.print(x);
-    Serial.print(", y = ");
-    Serial.print(y);
-    Serial.print(", width = ");
-    Serial.print(w);
-    Serial.print(", height = ");
-    Serial.println(h);
     Serial.println();
   }
   esp_camera_fb_return(fb);
